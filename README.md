@@ -87,3 +87,32 @@ The portal is now connected to the approved public site registry in Google Sheet
 - The map consumes the feed with JSONP to avoid browser cross-origin restrictions.
 
 The current map can show approved sites, Kogi State/LGA boundaries and coordinate navigation. Polygon drawing and raster-area analysis are the next portal module.
+
+
+## Polygon change analysis
+
+The portal now includes browser-side polygon analysis.
+
+Workflow:
+
+1. Navigate to a known site or enter latitude/longitude.
+2. Draw a polygon with the map polygon tool.
+3. The polygon is clipped to the Kogi processing boundary when necessary.
+4. The portal uses `data/tile_index.geojson` to identify intersecting raster tiles.
+5. Only the required COG windows are read in the browser.
+6. The report separates:
+   - potential/candidate conversion;
+   - strict permanent conversion (status 1, first change 2021–2024);
+   - provisional 2025 conversion (status 2).
+7. Strict permanent change is summarized by first change year, baseline class, transition, first converted class, final 2025 class and persistence years.
+8. The result can be downloaded as CSV.
+
+Area treatment:
+
+- selected polygon area is calculated geodesically;
+- fully included raster cells use geodesic cell-polygon area;
+- boundary cells use fractional polygon–cell intersection area;
+- 2025 is not added to the confirmed permanent total;
+- polygons extending outside Kogi are reported with a coverage percentage and analyzed only inside the processing boundary.
+
+For browser protection, very large polygon bounding windows are rejected and should be split into smaller areas.
