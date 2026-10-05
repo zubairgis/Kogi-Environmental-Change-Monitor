@@ -37,6 +37,7 @@
   const analyzeBtn = document.getElementById('analyzePolygon');
   const clearBtn = document.getElementById('clearPolygon');
   const downloadBtn = document.getElementById('downloadReport');
+  const startDrawBtn = document.getElementById('startDrawPolygon');
 
   const drawControl = new L.Control.Draw({
     position: 'topleft',
@@ -82,6 +83,21 @@
   map.on(L.Draw.Event.DELETED, function () {
     selectedLayer = null;
     clearAnalysis();
+  });
+
+  startDrawBtn.addEventListener('click', function () {
+    const drawer = new L.Draw.Polygon(map, {
+      allowIntersection: false,
+      showArea: true,
+      shapeOptions: {
+        color: '#dc2626',
+        weight: 2,
+        fillOpacity: 0.12
+      }
+    });
+    drawer.enable();
+    analysisStatus.className = 'status';
+    analysisStatus.textContent = 'Click on the map to add polygon vertices; click the first point to finish.';
   });
 
   analyzeBtn.addEventListener('click', analyzeSelectedPolygon);

@@ -1,11 +1,13 @@
 {
-  "version": "1.2",
+  "version": "1.3",
   "state": "Kogi",
   "country": "Nigeria",
   "map": {
     "boundary": "data/admin/kogi_state.geojson",
     "lga_boundaries": "data/admin/kogi_lgas.geojson",
-    "tile_index": "data/tile_index.geojson"
+    "tile_index": "data/tile_index.geojson",
+    "default_basemap": "Satellite + labels",
+    "alternative_basemap": "OpenStreetMap"
   },
   "site_registry": {
     "provider": "Google Sheets via Apps Script",
@@ -58,5 +60,26 @@
     ],
     "keep_2025_provisional_separate": true,
     "csv_download": true
+  },
+  "raster_display": {
+    "enabled": true,
+    "minimum_zoom": 9,
+    "max_visible_tiles": 18,
+    "renderer": "GeoTIFF.js downsampled browser canvas + Leaflet image overlay",
+    "layers": [
+      {
+        "id": "permanent",
+        "label": "Strict permanent change raster",
+        "color_by": "CHANGE_YEAR",
+        "provisional_2025_separate": true
+      },
+      {
+        "id": "candidate",
+        "label": "Potential / candidate change raster",
+        "color_by": "STATUS",
+        "provisional_2025_separate": true
+      }
+    ],
+    "note": "Only visible COG tiles are fetched and rendered; full statewide rasters are not decoded at once."
   }
 }

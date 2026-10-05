@@ -2,12 +2,66 @@ const SITE_API='https://script.google.com/macros/s/AKfycbxQwLQvjV591q8JUCUsgi8_l
 const SITE_FORM='https://docs.google.com/forms/d/e/1FAIpQLSc5u0zf5JcXUL-hwrUIPJuPV2g7TZSbsUqZA0p_Ja_3NL7yMg/viewform';
 
 const map=L.map('map',{zoomControl:true}).setView([7.8,6.7],8);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+
+map.createPane('rasterPane');
+map.getPane('rasterPane').style.zIndex=350;
+map.getPane('rasterPane').style.pointerEvents='none';
+
+map.createPane('labelsPane');
+map.getPane('labelsPane').style.zIndex=650;
+map.getPane('labelsPane').style.pointerEvents='none';
+
+const satelliteImagery=L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  {
+    maxZoom:19,
+    attribution:'Tiles &copy; Esri — Sources: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+  }
+);
+
+const satelliteLabels=L.tileLayer(
+  'https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+  {
+    maxZoom:19,
+    pane:'labelsPane',
+    attribution:'Reference labels &copy; Esri'
+  }
+);
+
+const satelliteBase=L.layerGroup([satelliteImagery,satelliteLabels]).addTo(map);
+
+const osmBase=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:19,
   attribution:'&copy; OpenStreetMap contributors'
-}).addTo(map);
+});
 
-const layers={state:null,lgas:null,sites:L.layerGroup().addTo(map),search:null};
+const layers={
+  state:L.featureGroup().addTo(map),
+  lgas:L.featureGroup().addTo(map),
+  sites:L.featureGroup().addTo(map),
+  search:null
+};
+
+const layerControl=L.control.layers(
+  {
+    'Satellite + labels':satelliteBase,
+    'OpenStreetMap':osmBase
+  },
+  {
+    'Known / approved sites':layers.sites,
+    'Kogi State boundary':layers.state,
+    'LGA boundaries':layers.lgas
+  },
+  {
+    collapsed:false,
+    position:'topright'
+  }
+).addTo(map);
+
+window.kogiMap=map;
+window.kogiLayers=layers;
+window.kogiLayerControl=layerControl;
+
 const statusEl=document.getElementById('registryStatus');
 const countEl=document.getElementById('siteCount');
 
@@ -24,7 +78,9 @@ function zoomToCoordinate(){
     return;
   }
   if(layers.search) map.removeLayer(layers.search);
-  layers.search=L.marker([lat,lon]).addTo(map).bindPopup('Selected coordinate<br>'+lat.toFixed(6)+', '+lon.toFixed(6)).openPopup();
+  layers.search=L.marker([lat,lon]).addTo(map).bindPopup(
+    'Selected coordinate<br>'+lat.toFixed(6)+', '+lon.toFixed(6)
+  ).openPopup();
   map.setView([lat,lon],14);
 }
 
@@ -67,14 +123,15 @@ function renderSites(data){
     const lat=Number(s.latitude),lon=Number(s.longitude);
     if(!Number.isFinite(lat)||!Number.isFinite(lon)) return;
     const st=activityStyle(s.activity_type);
-    L.circleMarker([lat,lon],{radius:7,weight:2,color:st.color,fillColor:st.fillColor,fillOpacity:.9})
-      .bindPopup(sitePopup(s),{maxWidth:360})
-      .addTo(layers.sites);
+    L.circleMarker([lat,lon],{
+      radius:7,weight:2,color:st.color,fillColor:st.fillColor,fillOpacity:.9
+    }).bindPopup(sitePopup(s),{maxWidth:360}).addTo(layers.sites);
     plotted++;
   });
   countEl.textContent=plotted;
   statusEl.className='status ok';
-  statusEl.innerHTML='<b>Live registry connected.</b><br>'+plotted+' approved public site point'+(plotted===1?'':'s')+' loaded from Google Sheets.';
+  statusEl.innerHTML='<b>Live registry connected.</b><br>'+plotted+
+    ' approved public site point'+(plotted===1?'':'s')+' loaded from Google Sheets.';
 }
 
 function jsonp(url,params={},timeout=15000){
@@ -83,7 +140,9 @@ function jsonp(url,params={},timeout=15000){
     const script=document.createElement('script');
     const timer=setTimeout(()=>cleanup(new Error('Registry request timed out.')),timeout);
     function cleanup(err,data){
-      clearTimeout(timer); if(script.parentNode) script.parentNode.removeChild(script); delete window[cb];
+      clearTimeout(timer);
+      if(script.parentNode) script.parentNode.removeChild(script);
+      delete window[cb];
       err?reject(err):resolve(data);
     }
     window[cb]=data=>cleanup(null,data);
@@ -101,17 +160,29 @@ async function loadBoundaries(){
       fetch('data/admin/kogi_lgas.geojson')
     ]);
     const state=await stateResp.json(),lgas=await lgaResp.json();
-    layers.state=L.geoJSON(state,{style:{color:'#0f172a',weight:2,fillOpacity:0}}).addTo(map);
-    layers.lgas=L.geoJSON(lgas,{
-      style:{color:'#64748b',weight:1,fillOpacity:0},
+
+    layers.state.clearLayers();
+    layers.lgas.clearLayers();
+
+    L.geoJSON(state,{
+      style:{color:'#ffffff',weight:3,opacity:.95,fillOpacity:0}
+    }).addTo(layers.state);
+
+    L.geoJSON(lgas,{
+      style:{color:'#ffe066',weight:1.2,opacity:.9,fillOpacity:0},
       onEachFeature:(f,l)=>{
         const p=f.properties||{};
         const name=p.lga_name||p.name||p.ADM2_EN||'LGA';
-        l.bindTooltip(name,{sticky:true});
+        l.bindTooltip(name,{sticky:true,className:'lga-tooltip'});
       }
-    }).addTo(map);
-    if(layers.state.getBounds().isValid()) map.fitBounds(layers.state.getBounds(),{padding:[15,15]});
-  }catch(err){console.warn('Boundary load failed',err);}
+    }).addTo(layers.lgas);
+
+    if(layers.state.getBounds().isValid()){
+      map.fitBounds(layers.state.getBounds(),{padding:[15,15]});
+    }
+  }catch(err){
+    console.warn('Boundary load failed',err);
+  }
 }
 
 async function loadRegistry(){
