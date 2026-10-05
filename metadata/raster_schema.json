@@ -1,0 +1,91 @@
+{
+  "version": "1.0",
+  "candidate_change": {
+    "folder": "data/candidate_change",
+    "filename_pattern": "Kogi_VegLoss_tile_####.tif",
+    "role": "Sensitive screening layer; not the primary permanent-change figure.",
+    "bands": [
+      {
+        "band": 1,
+        "name": "LOSS_YEAR",
+        "description": "First candidate conversion year."
+      },
+      {
+        "band": 2,
+        "name": "BASELINE_SOURCE_CLASS",
+        "description": "Baseline vegetation/source class."
+      },
+      {
+        "band": 3,
+        "name": "END_CLASS",
+        "description": "Built Area (7) or Bare Ground (8) in first detected change year."
+      },
+      {
+        "band": 4,
+        "name": "TRANSITION_CODE",
+        "description": "Transition code; see metadata/transition_codes.json."
+      },
+      {
+        "band": 5,
+        "name": "TEMPORAL_SCORE",
+        "description": "Temporal evidence-agreement score; not a calibrated probability."
+      },
+      {
+        "band": 6,
+        "name": "STATUS",
+        "description": "1 = candidate confirmed under original two-year persistence rule; 2 = provisional 2025."
+      }
+    ]
+  },
+  "permanent_change": {
+    "folder": "data/permanent_change",
+    "filename_pattern": "Kogi_PermanentChange_tile_####.tif",
+    "role": "Primary layer for permanent-change area reporting.",
+    "bands": [
+      {
+        "band": 1,
+        "name": "CHANGE_YEAR",
+        "description": "First year of strict permanent conversion."
+      },
+      {
+        "band": 2,
+        "name": "BASELINE_CLASS",
+        "description": "Same vegetation class observed in 2018, 2019 and 2020."
+      },
+      {
+        "band": 3,
+        "name": "FIRST_END_CLASS",
+        "description": "Built Area (7) or Bare Ground (8) in first permanent-change year."
+      },
+      {
+        "band": 4,
+        "name": "FINAL_2025_CLASS",
+        "description": "Land-cover class in 2025."
+      },
+      {
+        "band": 5,
+        "name": "TRANSITION_CODE",
+        "description": "Transition code; see metadata/transition_codes.json."
+      },
+      {
+        "band": 6,
+        "name": "PERSISTENCE_YEARS",
+        "description": "Continuous Built/Bare years from first change through 2025."
+      },
+      {
+        "band": 7,
+        "name": "STATUS",
+        "description": "1 = strict permanent change (2021-2024); 2 = provisional 2025."
+      },
+      {
+        "band": 8,
+        "name": "BASELINE_STABILITY",
+        "description": "3 for selected pixels: same monitored vegetation class in all three baseline years."
+      }
+    ]
+  },
+  "nodata": 0,
+  "raster_crs": "EPSG:3857",
+  "nominal_pixel_size_m": 10,
+  "area_computation_note": "For portal reports, use polygon-raster intersection and area-aware computation; do not rely only on whole-pixel count at polygon edges."
+}
