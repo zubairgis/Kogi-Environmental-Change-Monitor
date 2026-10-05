@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "generated_on": "2026-10-05",
+  "sources": {
+    "annual_land_cover": {
+      "name": "Esri / Impact Observatory / Microsoft Sentinel-2 10 m Annual Land Cover",
+      "years": "2018-2025 used in this project",
+      "role": "Primary annual land-cover classification used to derive candidate and strict permanent vegetation-to-Built/Bare transitions."
+    },
+    "processing_boundary": {
+      "name": "FAO GAUL 2015 level1",
+      "role": "Kogi State processing extent used by the Colab raster workflow.",
+      "file": "data/kogi_boundary.geojson"
+    },
+    "lga_overlay": {
+      "file": "data/kogi_lga_boundaries.geojson",
+      "geometry_source": "qedsoftware/geojson_data/nigeria-lga.geojson",
+      "authoritative_reference": "OSGOF Nigeria administrative boundaries / OCHA COD",
+      "role": "Reference display and LGA identification only; not used in raster area calculations."
+    }
+  },
+  "interpretation": "Remote sensing establishes land-cover conversion within a polygon. It does not by itself establish causal attribution to a specific operator or activity."
+}
