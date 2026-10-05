@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "candidate_change": {
+    "tiles_saved": 92,
+    "confirmed_pixels": 2005542,
+    "provisional_2025_pixels": 608102,
+    "nominal_confirmed_area_ha": 20055.42,
+    "nominal_provisional_area_ha": 6081.02,
+    "role": "Sensitive screening layer"
+  },
+  "strict_permanent_change": {
+    "processing_tiles_total": 104,
+    "tiles_saved": 91,
+    "no_change_tiles": 13,
+    "failed_tiles": 0,
+    "confirmed_pixels_2021_2024": 1052826,
+    "provisional_2025_pixels": 477278,
+    "nominal_confirmed_area_ha": 10528.26,
+    "nominal_provisional_area_ha": 4772.78,
+    "role": "Main permanent-change evidence layer"
+  },
+  "tile_index": {
+    "file": "data/tile_index.geojson",
+    "processing_tiles": 104,
+    "candidate_tiles": 92,
+    "permanent_tiles": 91
+  },
+  "area_note": "Statewide values above are nominal 10 m pixel-count summaries. Portal reports should calculate area for the user-drawn polygon from raster-polygon intersection in an appropriate projected/geodesic area workflow.",
+  "provisional_note": "2025-only changes remain provisional because a later annual land-cover map is required to establish persistence beyond 2025."
+}
