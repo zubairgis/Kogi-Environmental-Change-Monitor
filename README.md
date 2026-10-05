@@ -1,62 +1,74 @@
 # Kogi Environmental Change Monitor
 
-A GitHub-based environmental change monitoring portal for Kogi State, Nigeria.
+A web-based environmental land-cover change monitoring project for Kogi State, Nigeria.
 
-## Purpose
+## Portal objective
 
-The project is designed to let a user:
+The portal is being built so a user can:
 
-1. Enter a latitude/longitude or navigate to a location.
-2. Draw a polygon around a mine, factory, construction site, or other area of interest.
-3. Calculate the polygon area.
-4. Intersect the polygon with remote-sensing change layers.
-5. Report the area of land-cover conversion inside the polygon by:
-   - first change year;
-   - baseline land-cover class;
-   - transition to Built Area or Bare Ground;
-   - broad candidate change versus strict permanent change.
-6. Submit independent field/inspection evidence for later review.
+1. enter latitude/longitude and navigate to a site;
+2. draw a polygon around a mine, factory, building/development site, or other area of interest;
+3. calculate the polygon area;
+4. identify annual vegetation-to-Built/Bare conversion within that polygon;
+5. report **strict permanent change area**, **potential/candidate change area**, and **provisional 2025 change** separately;
+6. break results down by change year, original vegetation class, transition type, and end state;
+7. later submit independent field/inspection evidence for review.
 
-## Remote-sensing evidence model
+## Data package currently loaded
 
-The portal will distinguish between two change layers:
+- **92 candidate-change COG tiles** — sensitive screening layer.
+- **91 strict permanent-change COG tiles** — primary layer for permanent-change reporting.
+- **104-tile spatial index** — `data/tile_index.geojson`.
+- Kogi processing boundary — `data/kogi_boundary.geojson`.
+- **21 Kogi LGA reference boundaries** — `data/kogi_lga_boundaries.geojson`.
+- Land-cover, transition, methodology, QA, raster-schema, and portal-configuration metadata.
 
-- **Candidate change** — a sensitive Living Atlas annual land-cover transition layer.
-- **Strict permanent change** — a conservative layer requiring a stable 2018–2020 baseline and persistent conversion to Built Area or Bare Ground through the latest available annual land-cover map.
+## Strict permanent-change definition
 
-The strict layer should be used for the main permanent-change area reported by the portal.
+A selected pixel must have the **same monitored vegetation class in 2018, 2019 and 2020**:
+
+- Trees
+- Flooded Vegetation
+- Crops
+- Rangeland
+
+It must then convert to **Built Area or Bare Ground** and remain Built/Bare in every available annual map from its first permanent-change year through 2025.
+
+Changes first appearing in **2025 remain provisional** until a later annual land-cover map is available.
 
 ## Important interpretation
 
-The remote-sensing layer establishes that land-cover conversion occurred within a selected polygon. It does **not**, by itself, prove that a particular company or activity caused the change. Attribution should use site/lease information plus independent field, inspection, photographic, drone, or documentary evidence.
+The raster establishes that persistent land-cover conversion occurred within a selected polygon. It does **not**, by itself, prove that a specific company, mine, factory, or building caused the conversion. Attribution should use site/lease records plus independent field, inspection, photographic, drone, or documentary evidence.
 
-## Data privacy
+LGA boundaries are a map/reference overlay and do not control the polygon change-area calculation.
 
-This repository is public. Do not commit reporter identities, private contact information, confidential inspection records, or restricted photographs. Public-safe validation summaries may be published after review.
-
-## Planned repository structure
+## Repository structure
 
 ```text
-assets/
-  css/
-  js/
 data/
   candidate_change/
   permanent_change/
+  kogi_boundary.geojson
+  kogi_lga_boundaries.geojson
   tile_index.geojson
-  mining_factory_sites.csv
+
 metadata/
   landcover_classes.json
   transition_codes.json
   methodology.json
+  data_sources.json
+  processing_qa.json
+  raster_schema.json
+  portal_config.json
+
 validation/
-  README.md
 notebooks/
-  README.md
+assets/
 index.html
-.nojekyll
 ```
 
-## Status
+## Current status
 
-Initial project scaffold. Raster products and portal functionality will be added after the strict permanent-change dataset is finalized.
+**Portal-ready data package complete.**
+
+Next development stage: implement the interactive map, coordinate search, polygon drawing, COG reading, polygon-raster intersection, and downloadable change report.
