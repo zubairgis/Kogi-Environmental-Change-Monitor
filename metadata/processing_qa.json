@@ -26,5 +26,6 @@
     "permanent_tiles": 91
   },
   "area_note": "Statewide values above are nominal 10 m pixel-count summaries. Portal reports should calculate area for the user-drawn polygon from raster-polygon intersection in an appropriate projected/geodesic area workflow.",
-  "provisional_note": "2025-only changes remain provisional because a later annual land-cover map is required to establish persistence beyond 2025."
+  "provisional_note": "2025-only changes remain provisional because a later annual land-cover map is required to establish persistence beyond 2025.",
+  "verification_file": "metadata/processing_summary.json"
 }

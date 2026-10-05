@@ -3,8 +3,8 @@
   "state": "Kogi",
   "country": "Nigeria",
   "map": {
-    "boundary": "data/kogi_boundary.geojson",
-    "lga_boundaries": "data/kogi_lga_boundaries.geojson",
+    "boundary": "data/admin/kogi_state.geojson",
+    "lga_boundaries": "data/admin/kogi_lgas.geojson",
     "tile_index": "data/tile_index.geojson"
   },
   "change_layers": {
@@ -31,7 +31,8 @@
       "change_year",
       "baseline_class",
       "transition_code",
-      "end_state"
+      "end_state",
+      "persistence_years"
     ],
     "keep_2025_provisional_separate": true
   }

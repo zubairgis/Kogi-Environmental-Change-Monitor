@@ -19,8 +19,8 @@ The portal is being built so a user can:
 - **92 candidate-change COG tiles** — sensitive screening layer.
 - **91 strict permanent-change COG tiles** — primary layer for permanent-change reporting.
 - **104-tile spatial index** — `data/tile_index.geojson`.
-- Kogi processing boundary — `data/kogi_boundary.geojson`.
-- **21 Kogi LGA reference boundaries** — `data/kogi_lga_boundaries.geojson`.
+- Kogi processing boundary — `data/admin/kogi_state.geojson`.
+- **21 Kogi LGA reference boundaries** — `data/admin/kogi_lgas.geojson`.
 - Land-cover, transition, methodology, QA, raster-schema, and portal-configuration metadata.
 
 ## Strict permanent-change definition
@@ -48,8 +48,8 @@ LGA boundaries are a map/reference overlay and do not control the polygon change
 data/
   candidate_change/
   permanent_change/
-  kogi_boundary.geojson
-  kogi_lga_boundaries.geojson
+  admin/kogi_state.geojson
+  admin/kogi_lgas.geojson
   tile_index.geojson
 
 metadata/
@@ -72,3 +72,5 @@ index.html
 **Portal-ready data package complete.**
 
 Next development stage: implement the interactive map, coordinate search, polygon drawing, COG reading, polygon-raster intersection, and downloadable change report.
+
+Boundary provenance and licensing: see `metadata/data_sources.json`. Verified processing counts, CRS and raster checks: see `metadata/processing_summary.json`.

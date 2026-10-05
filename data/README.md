@@ -16,8 +16,8 @@ This is the **primary raster layer** for the portal's permanent-change area calc
 
 ## Vector/index files
 
-- `kogi_boundary.geojson` — WGS84 web version of the Kogi processing boundary.
-- `kogi_lga_boundaries.geojson` — 21-LGA reference overlay.
+- `admin/kogi_state.geojson` — WGS84 web version of the Kogi processing boundary.
+- `admin/kogi_lgas.geojson` — 21-LGA reference overlay.
 - `tile_index.geojson` — 104 processing-tile footprints with relative paths to available candidate/permanent COGs.
 
 Tiles absent from a change folder represent processing tiles in which that workflow found no selected pixels; the tile index retains those footprints so the portal can distinguish a valid zero-change result from missing coverage.
@@ -29,3 +29,5 @@ Tiles absent from a change folder represent processing tiles in which that workf
 ## Privacy
 
 Do not commit private reporter identities, contact information, confidential inspection records, or restricted photographs to this public repository.
+
+Boundary provenance and licensing: see `metadata/data_sources.json`. Verified processing counts, CRS and raster checks: see `metadata/processing_summary.json`.
