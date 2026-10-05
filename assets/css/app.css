@@ -4,8 +4,9 @@ header{background:#fff;border-bottom:1px solid #dfe5ec;padding:14px 18px;display
 .brand h1{font-size:20px;margin:0 0 3px}.brand p{margin:0;color:#596579;font-size:12px}
 .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 button,.btn{border:1px solid #cbd5e1;background:#fff;border-radius:7px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none;color:#172033}
-.btn-primary{background:#1769e0;color:#fff;border-color:#1769e0}
-main{height:calc(100% - 75px);display:grid;grid-template-columns:330px 1fr;min-height:560px}
+button:hover,.btn:hover{background:#f8fafc}button:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:#1769e0;color:#fff;border-color:#1769e0}.btn-primary:hover{background:#155dc5}
+main{height:calc(100% - 75px);display:grid;grid-template-columns:370px 1fr;min-height:560px}
 .panel{background:#fff;border-right:1px solid #dfe5ec;padding:15px;overflow:auto}
 .panel h2{font-size:15px;margin:0 0 10px}.panel h3{font-size:13px;margin:18px 0 8px}
 .field{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
@@ -16,4 +17,20 @@ input{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px}
 .dot{width:11px;height:11px;border-radius:50%;display:inline-block;border:1px solid #fff;box-shadow:0 0 0 1px #6b7280}
 #map{height:100%;width:100%}
 .popup-title{font-weight:700;margin-bottom:6px}.popup-grid{font-size:12px;line-height:1.5}.popup-grid b{font-weight:600}
-@media(max-width:800px){main{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:auto}.panel{border-right:0;border-bottom:1px solid #dfe5ec}.map-wrap{height:70vh}}
+.analysis-buttons{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}
+.analysis-buttons button{font-size:11px;padding:7px 9px}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:9px 0}
+.metric-card{border:1px solid #dbe3ec;border-radius:8px;padding:9px;background:#f8fafc}
+.metric-card.primary-metric{border-color:#15803d;background:#f0fdf4}
+.metric-label{font-size:10px;color:#64748b;margin-bottom:4px}
+.metric-value{font-size:15px;font-weight:700}
+.analysis-note{font-size:11px;line-height:1.45;background:#f8fafc;border-left:3px solid #64748b;padding:8px;margin:8px 0}
+.warn-note{background:#fff7ed;border-left-color:#ea580c}
+details{border-top:1px solid #e5e7eb;padding:7px 0;font-size:11px}
+details summary{cursor:pointer;font-weight:600;font-size:11px}
+.result-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:10px}
+.result-table th,.result-table td{padding:5px 4px;border-bottom:1px solid #eef2f7;text-align:left}
+.result-table th:last-child,.result-table td:last-child{text-align:right}
+.no-data{padding:5px 0}
+.leaflet-draw-toolbar a{background-color:#fff}
+@media(max-width:800px){main{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:auto}.panel{border-right:0;border-bottom:1px solid #dfe5ec}.map-wrap{height:70vh}.metric-grid{grid-template-columns:1fr 1fr}}

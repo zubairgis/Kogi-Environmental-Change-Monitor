@@ -1,5 +1,5 @@
 {
-  "version": "1.1",
+  "version": "1.2",
   "state": "Kogi",
   "country": "Nigeria",
   "map": {
@@ -28,6 +28,20 @@
       "schema": "metadata/raster_schema.json"
     }
   },
+  "polygon_analysis": {
+    "enabled": true,
+    "engine": "browser",
+    "libraries": [
+      "Leaflet.Draw 1.0.4",
+      "GeoTIFF.js 2.1.3",
+      "Turf.js 7.2.0"
+    ],
+    "max_bbox_window_pixels": 4000000,
+    "clip_to_processing_boundary": true,
+    "edge_pixel_method": "fractional polygon-pixel intersection",
+    "interior_pixel_area_method": "geodesic pixel polygon area",
+    "coverage_note": "Polygons extending outside the Kogi processing boundary are clipped for change statistics and the coverage percentage is reported."
+  },
   "report": {
     "primary_status_value": 1,
     "provisional_status_value": 2,
@@ -38,9 +52,11 @@
       "change_year",
       "baseline_class",
       "transition_code",
-      "end_state",
+      "first_end_state",
+      "final_2025_state",
       "persistence_years"
     ],
-    "keep_2025_provisional_separate": true
+    "keep_2025_provisional_separate": true,
+    "csv_download": true
   }
 }
