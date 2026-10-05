@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "state": "Kogi",
+  "country": "Nigeria",
+  "map": {
+    "boundary": "data/kogi_boundary.geojson",
+    "lga_boundaries": "data/kogi_lga_boundaries.geojson",
+    "tile_index": "data/tile_index.geojson"
+  },
+  "change_layers": {
+    "primary": {
+      "id": "permanent",
+      "label": "Strict permanent change",
+      "tile_property": "permanent_path",
+      "schema": "metadata/raster_schema.json"
+    },
+    "screening": {
+      "id": "candidate",
+      "label": "Potential / candidate change",
+      "tile_property": "candidate_path",
+      "schema": "metadata/raster_schema.json"
+    }
+  },
+  "report": {
+    "primary_status_value": 1,
+    "provisional_status_value": 2,
+    "show_polygon_area": true,
+    "show_changed_area": true,
+    "show_percent_changed": true,
+    "breakdowns": [
+      "change_year",
+      "baseline_class",
+      "transition_code",
+      "end_state"
+    ],
+    "keep_2025_provisional_separate": true
+  }
+}
