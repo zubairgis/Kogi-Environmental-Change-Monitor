@@ -4,11 +4,49 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Kogi Environmental Change Monitor</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
-  <main>
+<header>
+  <div class="brand">
     <h1>Kogi Environmental Change Monitor</h1>
-    <p>Portal scaffold initialized. Interactive polygon-area analysis will be added after final permanent-change tiles are prepared.</p>
-  </main>
+    <p>Permanent vegetation-to-Built/Bare conversion monitoring and site registry</p>
+  </div>
+  <div class="actions">
+    <a id="reportSite" class="btn btn-primary" target="_blank" rel="noopener">Report New Site</a>
+    <a class="btn" href="https://github.com/zubairgis/Kogi-Environmental-Change-Monitor" target="_blank" rel="noopener">Repository</a>
+  </div>
+</header>
+
+<main>
+  <aside class="panel">
+    <h2>Navigate to coordinates</h2>
+    <div class="field">
+      <input id="lat" type="number" step="any" placeholder="Latitude">
+      <input id="lon" type="number" step="any" placeholder="Longitude">
+    </div>
+    <button id="goCoord">Go to location</button>
+
+    <h3>Known / approved sites</h3>
+    <div id="registryStatus" class="status">Loading approved site registry…</div>
+    <div class="small"><b>Sites currently plotted:</b> <span id="siteCount">0</span></div>
+    <div class="small" style="margin-top:8px">Points are read live from the Google Sheet public feed. New Form submissions do not appear until reviewed and marked <b>portal_publish = Yes</b>.</div>
+
+    <h3>Site categories</h3>
+    <div class="legend-row"><span class="dot" style="background:#dc2626"></span> Mining</div>
+    <div class="legend-row"><span class="dot" style="background:#f59e0b"></span> Quarry</div>
+    <div class="legend-row"><span class="dot" style="background:#2563eb"></span> Factory</div>
+    <div class="legend-row"><span class="dot" style="background:#9333ea"></span> Building / construction</div>
+    <div class="legend-row"><span class="dot" style="background:#16a34a"></span> Raw-material prospect</div>
+
+    <h3>Change analysis</h3>
+    <div class="small">Candidate and strict permanent COGs are already stored in this repository. Polygon drawing and raster-area reporting are the next portal module.</div>
+  </aside>
+  <section class="map-wrap"><div id="map"></div></section>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/site-registry.js"></script>
 </body>
 </html>
