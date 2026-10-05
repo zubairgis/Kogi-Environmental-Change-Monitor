@@ -1,10 +1,31 @@
-# Data
+# Portal data
 
-This folder will contain only public-safe portal datasets.
+This directory contains public-safe spatial data used by the Kogi Environmental Change Monitor.
 
-Planned subfolders:
+## Raster layers
 
-- `candidate_change/` — broader screening change tiles.
-- `permanent_change/` — strict permanent-conversion tiles used for the main polygon-area calculation.
+### `candidate_change/`
+92 Cloud-Optimized GeoTIFF tiles containing the broader vegetation-to-Built/Bare screening result.
 
-Do not commit private field-submission records or personally identifying information here.
+Use this layer for **potential/candidate change**, not as the primary permanent-change figure.
+
+### `permanent_change/`
+91 Cloud-Optimized GeoTIFF tiles containing the strict permanent-change result.
+
+This is the **primary raster layer** for the portal's permanent-change area calculation.
+
+## Vector/index files
+
+- `kogi_boundary.geojson` — WGS84 web version of the Kogi processing boundary.
+- `kogi_lga_boundaries.geojson` — 21-LGA reference overlay.
+- `tile_index.geojson` — 104 processing-tile footprints with relative paths to available candidate/permanent COGs.
+
+Tiles absent from a change folder represent processing tiles in which that workflow found no selected pixels; the tile index retains those footprints so the portal can distinguish a valid zero-change result from missing coverage.
+
+## 2025
+
+2025-only change is stored as **provisional** and must be reported separately from strict confirmed permanent change.
+
+## Privacy
+
+Do not commit private reporter identities, contact information, confidential inspection records, or restricted photographs to this public repository.
