@@ -1,11 +1,18 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "state": "Kogi",
   "country": "Nigeria",
   "map": {
     "boundary": "data/admin/kogi_state.geojson",
     "lga_boundaries": "data/admin/kogi_lgas.geojson",
     "tile_index": "data/tile_index.geojson"
+  },
+  "site_registry": {
+    "provider": "Google Sheets via Apps Script",
+    "public_api": "https://script.google.com/macros/s/AKfycbxQwLQvjV591q8JUCUsgi8_lkJL2rfeWvZCqReJ8zeU5YTufUASp-m9QFNT5TFsrk8/exec",
+    "public_form": "https://docs.google.com/forms/d/e/1FAIpQLSc5u0zf5JcXUL-hwrUIPJuPV2g7TZSbsUqZA0p_Ja_3NL7yMg/viewform",
+    "publish_rule": "Only Sites_Master records with portal_publish = Yes and valid coordinates are exposed.",
+    "privacy_note": "Private submitter and reviewer fields are not exposed by the public API."
   },
   "change_layers": {
     "primary": {
