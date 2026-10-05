@@ -116,3 +116,22 @@ Area treatment:
 - polygons extending outside Kogi are reported with a coverage percentage and analyzed only inside the processing boundary.
 
 For browser protection, very large polygon bounding windows are rejected and should be split into smaller areas.
+
+
+## Map display layers
+
+The interactive portal now defaults to **Esri satellite imagery with reference labels**. OpenStreetMap remains available as an alternative basemap.
+
+The map layer chooser also includes:
+
+- Known / approved sites
+- Kogi State boundary
+- LGA boundaries
+- Strict permanent change raster
+- Potential / candidate change raster
+
+Raster display is dynamic: at zoom level 9 or closer, only COG tiles intersecting the current map view are fetched and rendered. This avoids decoding all statewide rasters at once.
+
+The strict permanent raster is displayed by first change year (2021–2024), with 2025 shown separately as provisional. The candidate layer distinguishes the original-rule candidate pixels from provisional 2025 pixels.
+
+A prominent **Draw Polygon** button is provided in the side panel in addition to the Leaflet.Draw toolbar, so polygon analysis does not depend on the toolbar sprite being visible.
