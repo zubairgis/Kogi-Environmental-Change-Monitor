@@ -1,23 +1,58 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "baseline": {
     "years": [
       2018,
       2019,
       2020
     ],
-    "strict_rule": "Same monitored vegetation class in all three baseline years"
+    "monitored_classes": [
+      "Trees",
+      "Flooded Vegetation",
+      "Crops",
+      "Rangeland"
+    ],
+    "strict_rule": "The same monitored vegetation class must be present in all three baseline years."
+  },
+  "candidate_change": {
+    "purpose": "Sensitive screening layer retained for comparison and possible-change reporting.",
+    "destination_classes": [
+      "Built Area",
+      "Bare Ground"
+    ]
   },
   "permanent_change": {
     "destination_classes": [
       "Built Area",
       "Bare Ground"
     ],
-    "rule": "From first detected change year, pixel remains Built Area or Bare Ground in every available subsequent annual map through 2025"
+    "rule": "From the first permanent-change year, the pixel must remain Built Area or Bare Ground in every available subsequent annual map through 2025.",
+    "confirmed_first_change_years": [
+      2021,
+      2022,
+      2023,
+      2024
+    ]
   },
   "provisional": {
     "year": 2025,
-    "note": "2025-only change is provisional until a later annual map is available"
+    "rule": "A 2025 Built/Bare conversion from the strict stable baseline is provisional because no later annual land-cover map is yet available to confirm persistence."
   },
-  "interpretation": "Remote sensing establishes persistent land-cover conversion, not causal attribution to a company or activity."
+  "portal_area_reporting": {
+    "primary_metric": "Strict permanent change area inside the user-drawn polygon.",
+    "secondary_metrics": [
+      "Potential/candidate change area",
+      "Provisional 2025 change area"
+    ],
+    "breakdowns": [
+      "first change year",
+      "baseline class",
+      "transition type",
+      "end state"
+    ],
+    "lga_role": "Reference overlay and location identification only; LGA geometry is not used to calculate site change area.",
+    "edge_pixels": "Use polygon-raster intersection rather than blindly counting all edge pixels as full 10 m pixels."
+  },
+  "interpretation": "Remote sensing establishes persistent land-cover conversion inside the selected polygon, not causal attribution to a particular operator or activity.",
+  "validation": "Independent field, inspection, photographic, drone, or documentary evidence can be submitted and reviewed separately."
 }
