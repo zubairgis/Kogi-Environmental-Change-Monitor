@@ -1,0 +1,23 @@
+{
+  "version": "0.1",
+  "baseline": {
+    "years": [
+      2018,
+      2019,
+      2020
+    ],
+    "strict_rule": "Same monitored vegetation class in all three baseline years"
+  },
+  "permanent_change": {
+    "destination_classes": [
+      "Built Area",
+      "Bare Ground"
+    ],
+    "rule": "From first detected change year, pixel remains Built Area or Bare Ground in every available subsequent annual map through 2025"
+  },
+  "provisional": {
+    "year": 2025,
+    "note": "2025-only change is provisional until a later annual map is available"
+  },
+  "interpretation": "Remote sensing establishes persistent land-cover conversion, not causal attribution to a company or activity."
+}
