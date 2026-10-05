@@ -74,3 +74,16 @@ index.html
 Next development stage: implement the interactive map, coordinate search, polygon drawing, COG reading, polygon-raster intersection, and downloadable change report.
 
 Boundary provenance and licensing: see `metadata/data_sources.json`. Verified processing counts, CRS and raster checks: see `metadata/processing_summary.json`.
+
+
+## Live site registry
+
+The portal is now connected to the approved public site registry in Google Sheets through a Google Apps Script web endpoint.
+
+- Public API: `https://script.google.com/macros/s/AKfycbxQwLQvjV591q8JUCUsgi8_lkJL2rfeWvZCqReJ8zeU5YTufUASp-m9QFNT5TFsrk8/exec`
+- New-site form: `https://docs.google.com/forms/d/e/1FAIpQLSc5u0zf5JcXUL-hwrUIPJuPV2g7TZSbsUqZA0p_Ja_3NL7yMg/viewform`
+- Only records with `portal_publish = Yes` and valid coordinates are exposed.
+- Private submitter/reviewer fields are not exposed through the public API.
+- The map consumes the feed with JSONP to avoid browser cross-origin restrictions.
+
+The current map can show approved sites, Kogi State/LGA boundaries and coordinate navigation. Polygon drawing and raster-area analysis are the next portal module.
