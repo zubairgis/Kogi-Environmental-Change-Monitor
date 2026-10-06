@@ -108,6 +108,22 @@
   });
   downloadBtn.addEventListener('click', downloadCurrentReportCsv);
 
+  analysisResults.addEventListener('click', function (event) {
+    const button = event.target.closest('.result-info-btn');
+    if (!button) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const targetId = button.getAttribute('aria-controls');
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    const willOpen = target.hidden;
+    target.hidden = !willOpen;
+    button.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  });
+
   async function ensureAnalysisData() {
     if (tileIndex && stateFeature) return;
 
@@ -734,37 +750,99 @@
       coverageWarning +
       '<div class="metric-grid">' +
         metricCard('Selected polygon', formatHa(report.selected_polygon_area_ha)) +
-        metricCard('Potential / candidate', formatHa(report.candidate.confirmed_area_ha)) +
-        metricCard('Strict permanent', formatHa(report.permanent.confirmed_area_ha), 'primary-metric') +
-        metricCard('Provisional 2025', formatHa(report.permanent.provisional_2025_area_ha)) +
+        metricCard(
+          'Potential / candidate',
+          formatHa(report.candidate.confirmed_area_ha),
+          '',
+          'candidate-total',
+          'A broader screening estimate of vegetation-to-Built/Bare change that does not require every pixel to satisfy the stricter permanent-change rules.'
+        ) +
+        metricCard(
+          'Strict permanent',
+          formatHa(report.permanent.confirmed_area_ha),
+          'primary-metric',
+          'strict-permanent',
+          'Area with a stable 2018–2020 vegetation baseline that changed to Built/Bare in 2021–2024 and remained Built/Bare through 2025.'
+        ) +
+        metricCard(
+          'Provisional 2025',
+          formatHa(report.permanent.provisional_2025_area_ha),
+          '',
+          'provisional-2025',
+          'Area first changing to Built/Bare in 2025, kept provisional because a later annual map is not yet available to confirm persistence.'
+        ) +
       '</div>' +
       '<div class="analysis-note"><b>Permanent change:</b> ' +
         formatPercent(report.permanent.percent_of_analysis_area) +
         ' of the analyzed polygon area.</div>' +
-      '<details open><summary>Permanent change by first year</summary>' +
+
+      '<details open><summary>' +
+        infoLabel(
+          'Permanent change by first year',
+          'permanent-year',
+          'Shows how much strict permanent change first began in each confirmed change year from 2021 to 2024.'
+        ) +
+      '</summary>' +
         breakdownTable(report.permanent.by_year_ha, function (k) { return k; }) +
       '</details>' +
-      '<details><summary>Permanent change by original land cover</summary>' +
+
+      '<details><summary>' +
+        infoLabel(
+          'Permanent change by original land cover',
+          'permanent-baseline',
+          'Shows which stable baseline vegetation classes, such as Trees or Rangeland, were converted within the strict permanent-change area.'
+        ) +
+      '</summary>' +
         breakdownTable(report.permanent.by_baseline_class_ha) +
       '</details>' +
-      '<details><summary>Permanent change by transition</summary>' +
+
+      '<details><summary>' +
+        infoLabel(
+          'Permanent change by transition',
+          'permanent-transition',
+          'Shows the area of each baseline-to-impact transition, such as Rangeland → Built Area or Trees → Bare Ground.'
+        ) +
+      '</summary>' +
         breakdownTable(report.permanent.by_transition_ha) +
       '</details>' +
+
       '<details><summary>First converted class</summary>' +
         breakdownTable(report.permanent.by_first_end_class_ha) +
       '</details>' +
-      '<details><summary>Final 2025 class</summary>' +
+
+      '<details><summary>' +
+        infoLabel(
+          'Final 2025 class',
+          'final-2025-class',
+          'Shows whether strict permanent-change pixels were classified as Built Area or Bare Ground in the 2025 annual map.'
+        ) +
+      '</summary>' +
         breakdownTable(report.permanent.by_final_2025_class_ha) +
       '</details>' +
-      '<details><summary>Persistence through 2025</summary>' +
+
+      '<details><summary>' +
+        infoLabel(
+          'Persistence through 2025',
+          'persistence-2025',
+          'Shows how many annual observations each confirmed change remained continuously within Built/Bare through 2025.'
+        ) +
+      '</summary>' +
         breakdownTable(
           report.permanent.by_persistence_years_ha,
           function (k) { return k + ' year' + (String(k) === '1' ? '' : 's'); }
         ) +
       '</details>' +
-      '<details><summary>Candidate change by first year</summary>' +
+
+      '<details><summary>' +
+        infoLabel(
+          'Candidate change by first year',
+          'candidate-year',
+          'Shows when the broader candidate-change pixels first met the candidate conversion rule, before applying the stricter permanence criteria.'
+        ) +
+      '</summary>' +
         breakdownTable(report.candidate.by_year_ha, function (k) { return k; }) +
       '</details>' +
+
       '<div class="analysis-note">' +
         '<b>Method:</b> 10 m COG cells are clipped against the drawn polygon. ' +
         'Interior cells use geodesic cell area; boundary cells use fractional polygon–cell intersection area. ' +
@@ -772,11 +850,26 @@
       '</div>';
   }
 
-  function metricCard(label, value, extraClass) {
+  function metricCard(label, value, extraClass, infoKey, infoText) {
+    const labelHtml = infoKey
+      ? infoLabel(label, infoKey, infoText)
+      : esc(label);
+
     return '<div class="metric-card ' + (extraClass || '') + '">' +
-      '<div class="metric-label">' + esc(label) + '</div>' +
+      '<div class="metric-label">' + labelHtml + '</div>' +
       '<div class="metric-value">' + esc(value) + '</div>' +
     '</div>';
+  }
+
+  function infoLabel(label, key, text) {
+    const id = 'result-info-' + key;
+
+    return '<span class="result-info-wrap">' +
+      '<span class="result-info-label">' + esc(label) + '</span>' +
+      '<button type="button" class="result-info-btn" aria-expanded="false" aria-controls="' +
+        id + '" title="What does this mean?" aria-label="Explain ' + esc(label) + '">?</button>' +
+      '<span id="' + id + '" class="result-info-text" hidden>' + esc(text) + '</span>' +
+    '</span>';
   }
 
   function breakdownTable(object, labelFn) {
