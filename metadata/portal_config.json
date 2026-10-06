@@ -1,5 +1,5 @@
 {
-  "version": "1.4",
+  "version": "1.5",
   "state": "Kogi",
   "country": "Nigeria",
   "map": {
@@ -7,7 +7,16 @@
     "lga_boundaries": "data/admin/kogi_lgas.geojson",
     "tile_index": "data/tile_index.geojson",
     "default_basemap": "Satellite + labels",
-    "alternative_basemap": "OpenStreetMap"
+    "alternative_basemap": "OpenStreetMap",
+    "drainage": {
+      "path": "data/hydrography/NGA023_Kogi_drainage.geojson",
+      "label": "Drainage / streams",
+      "default_visible": false,
+      "load_strategy": "lazy on first selection",
+      "feature_count": 1462,
+      "source_repository": "zubairgis/nigeria-population-demography-course",
+      "source_path": "data/drainage/by_state/NGA023_Kogi_drainage.geojson"
+    }
   },
   "site_registry": {
     "provider": "Google Sheets via Apps Script",
