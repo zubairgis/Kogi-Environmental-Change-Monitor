@@ -36,8 +36,6 @@ const osmBase=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 });
 
 const layers={
-  state:L.featureGroup().addTo(map),
-  lgas:L.featureGroup().addTo(map),
   sites:L.featureGroup().addTo(map),
   search:null
 };
@@ -48,9 +46,7 @@ const layerControl=L.control.layers(
     'OpenStreetMap':osmBase
   },
   {
-    'Known / approved sites':layers.sites,
-    'Kogi State boundary':layers.state,
-    'LGA boundaries':layers.lgas
+    'Known / approved sites':layers.sites
   },
   {
     collapsed:false,
@@ -153,38 +149,6 @@ function jsonp(url,params={},timeout=15000){
   });
 }
 
-async function loadBoundaries(){
-  try{
-    const [stateResp,lgaResp]=await Promise.all([
-      fetch('data/admin/kogi_state.geojson'),
-      fetch('data/admin/kogi_lgas.geojson')
-    ]);
-    const state=await stateResp.json(),lgas=await lgaResp.json();
-
-    layers.state.clearLayers();
-    layers.lgas.clearLayers();
-
-    L.geoJSON(state,{
-      style:{color:'#ffffff',weight:3,opacity:.95,fillOpacity:0}
-    }).addTo(layers.state);
-
-    L.geoJSON(lgas,{
-      style:{color:'#ffe066',weight:1.2,opacity:.9,fillOpacity:0},
-      onEachFeature:(f,l)=>{
-        const p=f.properties||{};
-        const name=p.lga_name||p.name||p.ADM2_EN||'LGA';
-        l.bindTooltip(name,{sticky:true,className:'lga-tooltip'});
-      }
-    }).addTo(layers.lgas);
-
-    if(layers.state.getBounds().isValid()){
-      map.fitBounds(layers.state.getBounds(),{padding:[15,15]});
-    }
-  }catch(err){
-    console.warn('Boundary load failed',err);
-  }
-}
-
 async function loadRegistry(){
   statusEl.className='status';
   statusEl.textContent='Loading approved site registry…';
@@ -194,9 +158,8 @@ async function loadRegistry(){
     renderSites(data);
   }catch(err){
     statusEl.className='status warn';
-    statusEl.innerHTML='<b>Registry feed not available.</b><br>'+esc(err.message)+'<br>The map boundaries still work.';
+    statusEl.innerHTML='<b>Registry feed not available.</b><br>'+esc(err.message)+'<br>The map still works.';
   }
 }
 
-loadBoundaries();
 loadRegistry();
