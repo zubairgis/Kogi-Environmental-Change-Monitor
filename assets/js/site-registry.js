@@ -37,8 +37,12 @@ const osmBase=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 
 const layers={
   sites:L.featureGroup().addTo(map),
+  drainage:L.featureGroup(),
   search:null
 };
+
+let drainageLoaded=false;
+let drainageLoading=false;
 
 const layerControl=L.control.layers(
   {
@@ -46,7 +50,8 @@ const layerControl=L.control.layers(
     'OpenStreetMap':osmBase
   },
   {
-    'Known / approved sites':layers.sites
+    'Known / approved sites':layers.sites,
+    'Drainage / streams':layers.drainage
   },
   {
     collapsed:true,
@@ -65,6 +70,42 @@ if(layerToggle){
 }
 
 map.on('click',()=>layerControl.collapse());
+
+map.on('overlayadd',async event=>{
+  if(event.layer!==layers.drainage || drainageLoaded || drainageLoading) return;
+
+  drainageLoading=true;
+  try{
+    const response=await fetch('data/hydrography/NGA023_Kogi_drainage.geojson',{cache:'force-cache'});
+    if(!response.ok) throw new Error('Could not load drainage layer.');
+
+    const geojson=await response.json();
+    L.geoJSON(geojson,{
+      style:feature=>{
+        const type=String((feature.properties||{}).waterway||'').toLowerCase();
+        return {
+          color:'#38bdf8',
+          weight:type==='river'?1.8:1.1,
+          opacity:.9
+        };
+      },
+      onEachFeature:(feature,layer)=>{
+        const p=feature.properties||{};
+        if(p.name){
+          layer.bindTooltip(String(p.name),{sticky:true});
+        }
+      }
+    }).addTo(layers.drainage);
+
+    drainageLoaded=true;
+  }catch(err){
+    console.error('Drainage layer load failed',err);
+    if(map.hasLayer(layers.drainage)) map.removeLayer(layers.drainage);
+    alert('The drainage layer could not be loaded. Please try again.');
+  }finally{
+    drainageLoading=false;
+  }
+});
 
 window.kogiMap=map;
 window.kogiLayers=layers;
