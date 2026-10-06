@@ -64,3 +64,17 @@ details summary{cursor:pointer;font-weight:600;font-size:11px}
 }
 .metric-label .result-info-text{color:#334155}
 details summary .result-info-text{margin:6px 0 2px 0}
+
+.environmental-charge-box{
+  margin-top:14px;padding:12px;border:1px solid #86b897;border-radius:9px;
+  background:#f0fdf4;
+}
+.environmental-charge-title{font-size:12px;font-weight:700;color:#166534;margin-bottom:4px}
+.environmental-charge-total{font-size:22px;font-weight:800;color:#14532d;margin:4px 0 6px}
+.environmental-charge-disclaimer{
+  margin-top:8px;padding-top:7px;border-top:1px solid #bbd8c3;
+  font-size:10px;line-height:1.4;color:#475569
+}
+.charge-table{margin-top:9px}
+.charge-table th,.charge-table td{font-size:9px}
+.charge-table th:nth-child(n+2),.charge-table td:nth-child(n+2){text-align:right}
