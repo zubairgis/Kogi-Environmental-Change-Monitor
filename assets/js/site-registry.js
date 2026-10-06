@@ -40,6 +40,8 @@ const layers={
   search:null
 };
 
+const mobileLayerControl=window.matchMedia('(max-width:800px)').matches;
+
 const layerControl=L.control.layers(
   {
     'Satellite + labels':satelliteBase,
@@ -49,10 +51,24 @@ const layerControl=L.control.layers(
     'Known / approved sites':layers.sites
   },
   {
-    collapsed:false,
+    collapsed:mobileLayerControl,
     position:'topright'
   }
 ).addTo(map);
+
+const layerControlContainer=layerControl.getContainer();
+const layerToggle=layerControlContainer
+  ? layerControlContainer.querySelector('.leaflet-control-layers-toggle')
+  : null;
+
+if(layerToggle){
+  layerToggle.title='Map layers';
+  layerToggle.setAttribute('aria-label','Open map layers');
+}
+
+if(mobileLayerControl){
+  map.on('click',()=>layerControl.collapse());
+}
 
 window.kogiMap=map;
 window.kogiLayers=layers;
