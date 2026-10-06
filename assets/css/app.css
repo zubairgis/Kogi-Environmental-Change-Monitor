@@ -41,11 +41,27 @@ details summary{cursor:pointer;font-weight:600;font-size:11px}
 .lga-tooltip{background:rgba(17,24,39,.88);color:#fff;border:0;box-shadow:none;font-size:10px}
 .change-raster-overlay{image-rendering:auto}
 @media(max-width:800px){
-  main{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:auto}
-  .panel{border-right:0;border-bottom:1px solid #dfe5ec}
-  .map-wrap{height:70vh}
+  main{
+    display:flex;
+    flex-direction:column;
+    height:auto;
+    min-height:0;
+  }
+  .map-wrap{
+    order:1;
+    height:62vh;
+    min-height:390px;
+    width:100%;
+  }
+  .panel{
+    order:2;
+    border-right:0;
+    border-top:1px solid #dfe5ec;
+    border-bottom:0;
+    overflow:visible;
+  }
   .metric-grid{grid-template-columns:1fr 1fr}
-  .leaflet-control-layers{max-width:230px}
+  .leaflet-control-layers{max-width:230px;max-height:42vh}
 }
 .result-info-wrap{display:inline;position:relative}
 .result-info-label{vertical-align:middle}
