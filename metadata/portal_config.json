@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "state": "Kogi",
   "country": "Nigeria",
   "map": {
@@ -81,5 +81,21 @@
       }
     ],
     "note": "Only visible COG tiles are fetched and rendered; full statewide rasters are not decoded at once."
+  },
+  "environmental_restoration_charge": {
+    "enabled": true,
+    "currency": "NGN",
+    "basis": "Confirmed strict permanent change only (status = 1); provisional 2025 excluded.",
+    "legal_status": "Indicative restoration-cost estimate for planning and compliance screening; not a statutory fine or legal determination of liability.",
+    "rates_naira_per_ha": {
+      "Trees → Bare Ground": 6000000,
+      "Trees → Built Area": 7500000,
+      "Flooded Vegetation → Bare Ground": 7000000,
+      "Flooded Vegetation → Built Area": 8750000,
+      "Crops → Bare Ground": 3000000,
+      "Crops → Built Area": 3750000,
+      "Rangeland → Bare Ground": 2000000,
+      "Rangeland → Built Area": 2500000
+    }
   }
 }
