@@ -40,8 +40,6 @@ const layers={
   search:null
 };
 
-const mobileLayerControl=window.matchMedia('(max-width:800px)').matches;
-
 const layerControl=L.control.layers(
   {
     'Satellite + labels':satelliteBase,
@@ -51,7 +49,7 @@ const layerControl=L.control.layers(
     'Known / approved sites':layers.sites
   },
   {
-    collapsed:mobileLayerControl,
+    collapsed:true,
     position:'topright'
   }
 ).addTo(map);
@@ -66,9 +64,7 @@ if(layerToggle){
   layerToggle.setAttribute('aria-label','Open map layers');
 }
 
-if(mobileLayerControl){
-  map.on('click',()=>layerControl.collapse());
-}
+map.on('click',()=>layerControl.collapse());
 
 window.kogiMap=map;
 window.kogiLayers=layers;
