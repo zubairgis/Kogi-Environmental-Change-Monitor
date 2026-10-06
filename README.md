@@ -160,3 +160,14 @@ Current indicative rates:
 The charge is shown at the bottom of the polygon-analysis results with transition area, rate per hectare and calculated amount. The CSV export includes the total, each transition area, each rate and each transition charge.
 
 This is an indicative restoration-cost estimate for planning and compliance screening. It is **not a statutory fine or legal determination of liability**.
+
+
+## Registry resilience
+
+The public site registry uses the Google Apps Script feed as the primary live source. Because Apps Script web apps can occasionally be slow to start, the portal now:
+
+1. tries a direct JSON request;
+2. retries through JSONP with a longer timeout; and
+3. if Google remains unavailable, loads `data/site_registry_fallback.json`, a public-safe snapshot of the 18 known published sites.
+
+The fallback prevents the map from losing all known site markers during a temporary Apps Script delay. When the live feed recovers, it remains the preferred source.
