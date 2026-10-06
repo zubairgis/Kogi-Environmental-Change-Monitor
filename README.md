@@ -171,3 +171,16 @@ The public site registry uses the Google Apps Script feed as the primary live so
 3. if Google remains unavailable, loads `data/site_registry_fallback.json`, a public-safe snapshot of the 18 known published sites.
 
 The fallback prevents the map from losing all known site markers during a temporary Apps Script delay. When the live feed recovers, it remains the preferred source.
+
+
+## Drainage overlay
+
+The layer chooser includes an optional **Drainage / streams** overlay for Kogi State. It is **unchecked by default** and is loaded only when the user selects it, which avoids adding the 1,462-feature GeoJSON to the initial page load.
+
+Portal copy:
+`data/hydrography/NGA023_Kogi_drainage.geojson`
+
+Source:
+`zubairgis/nigeria-population-demography-course/data/drainage/by_state/NGA023_Kogi_drainage.geojson`
+
+Streams are rendered as blue lines; named drainage features show a tooltip where a name is available.
