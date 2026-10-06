@@ -130,35 +130,111 @@ function renderSites(data){
     ' approved public site point'+(plotted===1?'':'s')+' loaded from Google Sheets.';
 }
 
-function jsonp(url,params={},timeout=15000){
+function jsonp(url,params={},timeout=45000){
   return new Promise((resolve,reject)=>{
     const cb='kogiRegistry_'+Date.now()+'_'+Math.floor(Math.random()*100000);
     const script=document.createElement('script');
+    let settled=false;
     const timer=setTimeout(()=>cleanup(new Error('Registry request timed out.')),timeout);
+
     function cleanup(err,data){
+      if(settled) return;
+      settled=true;
       clearTimeout(timer);
       if(script.parentNode) script.parentNode.removeChild(script);
-      delete window[cb];
+      try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
       err?reject(err):resolve(data);
     }
+
     window[cb]=data=>cleanup(null,data);
-    const q=new URLSearchParams({...params,callback:cb});
+    const q=new URLSearchParams({...params,callback:cb,_:Date.now()});
     script.src=url+(url.includes('?')?'&':'?')+q.toString();
+    script.async=true;
     script.onerror=()=>cleanup(new Error('Could not load registry feed.'));
     document.head.appendChild(script);
   });
 }
 
+async function fetchRegistryJson(timeout=25000){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),timeout);
+
+  try{
+    const url=SITE_API+'?action=sites&_='+Date.now();
+    const response=await fetch(url,{
+      method:'GET',
+      cache:'no-store',
+      redirect:'follow',
+      signal:controller.signal
+    });
+    if(!response.ok) throw new Error('Registry returned HTTP '+response.status+'.');
+    return await response.json();
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+async function fetchFallbackRegistry(){
+  const response=await fetch('data/site_registry_fallback.json',{cache:'no-store'});
+  if(!response.ok) throw new Error('Local registry fallback is unavailable.');
+  return await response.json();
+}
+
+async function getLiveRegistry(){
+  let firstError=null;
+
+  try{
+    const data=await fetchRegistryJson();
+    if(data&&data.ok===true&&Array.isArray(data.sites)) return data;
+    throw new Error((data&&data.error)||'Registry returned an invalid response.');
+  }catch(err){
+    firstError=err;
+  }
+
+  statusEl.textContent='Google registry is slow; retrying…';
+
+  try{
+    const data=await jsonp(SITE_API,{action:'sites'},45000);
+    if(data&&data.ok===true&&Array.isArray(data.sites)) return data;
+    throw new Error((data&&data.error)||'Registry returned an invalid response.');
+  }catch(err){
+    const combined=new Error(
+      'Live registry unavailable. '+
+      (firstError&&firstError.message?firstError.message+' ':'')+
+      (err&&err.message?err.message:'')
+    );
+    combined.liveFailure=true;
+    throw combined;
+  }
+}
+
 async function loadRegistry(){
   statusEl.className='status';
   statusEl.textContent='Loading approved site registry…';
+
   try{
-    const data=await jsonp(SITE_API,{action:'sites'});
-    if(!data||data.ok!==true) throw new Error((data&&data.error)||'Registry returned an error.');
+    const data=await getLiveRegistry();
     renderSites(data);
-  }catch(err){
-    statusEl.className='status warn';
-    statusEl.innerHTML='<b>Registry feed not available.</b><br>'+esc(err.message)+'<br>The map still works.';
+  }catch(liveErr){
+    console.warn('Live registry unavailable; using fallback.',liveErr);
+
+    try{
+      const fallback=await fetchFallbackRegistry();
+      renderSites(fallback);
+      statusEl.className='status warn';
+      statusEl.innerHTML=
+        '<b>Showing cached public registry.</b><br>'+
+        fallback.sites.length+
+        ' known site point'+(fallback.sites.length===1?'':'s')+
+        ' loaded locally while the Google registry is temporarily unavailable.';
+    }catch(fallbackErr){
+      console.error(fallbackErr);
+      statusEl.className='status warn';
+      statusEl.innerHTML=
+        '<b>Registry feed not available.</b><br>'+
+        esc(liveErr.message)+
+        '<br>The map still works.';
+    }
   }
 }
 
