@@ -78,3 +78,16 @@ details summary .result-info-text{margin:6px 0 2px 0}
 .charge-table{margin-top:9px}
 .charge-table th,.charge-table td{font-size:9px}
 .charge-table th:nth-child(n+2),.charge-table td:nth-child(n+2){text-align:right}
+
+.contact-footer{
+  margin-top:24px;
+  padding-top:10px;
+  border-top:1px solid #e5e7eb;
+  font-size:10px;
+  line-height:1.45;
+  color:#64748b;
+  word-break:break-word;
+}
+.contact-footer strong{color:#334155;font-size:10px}
+.contact-footer a{color:#475569;text-decoration:none}
+.contact-footer a:hover{text-decoration:underline}
