@@ -138,3 +138,25 @@ A prominent **Draw Polygon** button is provided in the side panel in addition to
 ### Administrative boundary display
 
 Kogi State and LGA boundary overlays are intentionally **not displayed on the interactive map**. The boundary datasets remain in the repository for processing, coverage checks and other internal/reference uses. The polygon-analysis workflow still uses the Kogi processing boundary internally to determine valid analysis coverage.
+
+
+## Indicative environmental restoration charge
+
+After polygon analysis, the portal calculates an **Indicative Environmental Restoration Charge** from confirmed strict permanent land-cover transitions only. Provisional 2025 change is excluded.
+
+Current indicative rates:
+
+| Strict permanent transition | Rate (NGN/ha) |
+|---|---:|
+| Trees → Bare Ground | ₦6,000,000 |
+| Trees → Built Area | ₦7,500,000 |
+| Flooded Vegetation → Bare Ground | ₦7,000,000 |
+| Flooded Vegetation → Built Area | ₦8,750,000 |
+| Crops → Bare Ground | ₦3,000,000 |
+| Crops → Built Area | ₦3,750,000 |
+| Rangeland → Bare Ground | ₦2,000,000 |
+| Rangeland → Built Area | ₦2,500,000 |
+
+The charge is shown at the bottom of the polygon-analysis results with transition area, rate per hectare and calculated amount. The CSV export includes the total, each transition area, each rate and each transition charge.
+
+This is an indicative restoration-cost estimate for planning and compliance screening. It is **not a statutory fine or legal determination of liability**.
