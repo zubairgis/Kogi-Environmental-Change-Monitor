@@ -25,6 +25,19 @@
     8: 'Rangeland → Built Area'
   };
 
+  // Indicative restoration charges, not statutory fines.
+  // Applied only to confirmed strict permanent change (status = 1).
+  const ENVIRONMENTAL_CHARGE_RATES_NAIRA_PER_HA = {
+    'Trees → Bare Ground': 6000000,
+    'Trees → Built Area': 7500000,
+    'Flooded Vegetation → Bare Ground': 7000000,
+    'Flooded Vegetation → Built Area': 8750000,
+    'Crops → Bare Ground': 3000000,
+    'Crops → Built Area': 3750000,
+    'Rangeland → Bare Ground': 2000000,
+    'Rangeland → Built Area': 2500000
+  };
+
   const drawGroup = new L.FeatureGroup().addTo(map);
   let selectedLayer = null;
   let tileIndex = null;
@@ -256,6 +269,9 @@
         analysisAreaHa > 0
           ? report.candidate.confirmed_area_ha / analysisAreaHa * 100
           : 0;
+
+      report.environmental_charge =
+        calculateEnvironmentalCharge(report.permanent.by_transition_ha);
 
       currentReport = report;
       renderReport(report);
@@ -847,7 +863,8 @@
         '<b>Method:</b> 10 m COG cells are clipped against the drawn polygon. ' +
         'Interior cells use geodesic cell area; boundary cells use fractional polygon–cell intersection area. ' +
         '2025 is kept provisional and is not added to the strict permanent total.' +
-      '</div>';
+      '</div>' +
+      environmentalChargeHtml(report.environmental_charge);
   }
 
   function metricCard(label, value, extraClass, infoKey, infoText) {
@@ -870,6 +887,72 @@
         id + '" title="What does this mean?" aria-label="Explain ' + esc(label) + '">?</button>' +
       '<span id="' + id + '" class="result-info-text" hidden>' + esc(text) + '</span>' +
     '</span>';
+  }
+
+  function calculateEnvironmentalCharge(byTransitionHa) {
+    const rows = [];
+    let total = 0;
+
+    Object.keys(ENVIRONMENTAL_CHARGE_RATES_NAIRA_PER_HA).forEach(function (transition) {
+      const areaHa = Number((byTransitionHa || {})[transition] || 0);
+      if (!(areaHa > 0)) return;
+
+      const rate = ENVIRONMENTAL_CHARGE_RATES_NAIRA_PER_HA[transition];
+      const amount = areaHa * rate;
+      total += amount;
+
+      rows.push({
+        transition: transition,
+        area_ha: areaHa,
+        rate_naira_per_ha: rate,
+        charge_naira: amount
+      });
+    });
+
+    return {
+      currency: 'NGN',
+      total_naira: total,
+      confirmed_strict_only: true,
+      provisional_2025_excluded: true,
+      rows: rows
+    };
+  }
+
+  function environmentalChargeHtml(charge) {
+    if (!charge) return '';
+
+    let rows = '';
+    (charge.rows || []).forEach(function (row) {
+      rows += '<tr>' +
+        '<td>' + esc(row.transition) + '</td>' +
+        '<td>' + Number(row.area_ha).toFixed(3) + '</td>' +
+        '<td>' + formatNaira(row.rate_naira_per_ha) + '</td>' +
+        '<td>' + formatNaira(row.charge_naira) + '</td>' +
+      '</tr>';
+    });
+
+    if (!rows) {
+      rows = '<tr><td colspan="4">No confirmed strict permanent change to charge.</td></tr>';
+    }
+
+    return '<div class="environmental-charge-box">' +
+      '<div class="environmental-charge-title">Indicative Environmental Restoration Charge</div>' +
+      '<div class="environmental-charge-total">' + formatNaira(charge.total_naira) + '</div>' +
+      '<div class="small">Calculated from confirmed strict permanent transition areas only; provisional 2025 change is excluded.</div>' +
+      '<table class="result-table charge-table">' +
+        '<thead><tr><th>Transition</th><th>Area (ha)</th><th>Rate/ha</th><th>Charge</th></tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+      '</table>' +
+      '<div class="environmental-charge-disclaimer">' +
+        'This is an indicative restoration-cost estimate for planning and compliance screening, not a statutory fine or legal determination of liability.' +
+      '</div>' +
+    '</div>';
+  }
+
+  function formatNaira(value) {
+    return '₦' + Number(value || 0).toLocaleString('en-NG', {
+      maximumFractionDigits: 0
+    });
   }
 
   function breakdownTable(object, labelFn) {
@@ -914,8 +997,17 @@
       ['summary', 'candidate_change_area_ha', currentReport.candidate.confirmed_area_ha],
       ['summary', 'strict_permanent_change_area_ha', currentReport.permanent.confirmed_area_ha],
       ['summary', 'provisional_2025_change_area_ha', currentReport.permanent.provisional_2025_area_ha],
-      ['summary', 'permanent_change_percent', currentReport.permanent.percent_of_analysis_area]
+      ['summary', 'permanent_change_percent', currentReport.permanent.percent_of_analysis_area],
+      ['environmental_charge', 'indicative_restoration_charge_total_naira', currentReport.environmental_charge.total_naira],
+      ['environmental_charge', 'provisional_2025_excluded', 'Yes'],
+      ['environmental_charge', 'legal_status', 'Indicative restoration-cost estimate; not a statutory fine or legal determination of liability']
     ];
+
+    (currentReport.environmental_charge.rows || []).forEach(function (row) {
+      rows.push(['environmental_charge_area_ha', row.transition, row.area_ha]);
+      rows.push(['environmental_charge_rate_naira_per_ha', row.transition, row.rate_naira_per_ha]);
+      rows.push(['environmental_charge_amount_naira', row.transition, row.charge_naira]);
+    });
 
     appendBreakdownRows(rows, 'permanent_by_year', currentReport.permanent.by_year_ha);
     appendBreakdownRows(rows, 'permanent_by_baseline', currentReport.permanent.by_baseline_class_ha);
@@ -929,7 +1021,7 @@
       return row.map(csvEscape).join(',');
     }).join('\n');
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
