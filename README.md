@@ -125,8 +125,6 @@ The interactive portal now defaults to **Esri satellite imagery with reference l
 The map layer chooser also includes:
 
 - Known / approved sites
-- Kogi State boundary
-- LGA boundaries
 - Strict permanent change raster
 - Potential / candidate change raster
 
@@ -135,3 +133,8 @@ Raster display is dynamic: at zoom level 9 or closer, only COG tiles intersectin
 The strict permanent raster is displayed by first change year (2021–2024), with 2025 shown separately as provisional. The candidate layer distinguishes the original-rule candidate pixels from provisional 2025 pixels.
 
 A prominent **Draw Polygon** button is provided in the side panel in addition to the Leaflet.Draw toolbar, so polygon analysis does not depend on the toolbar sprite being visible.
+
+
+### Administrative boundary display
+
+Kogi State and LGA boundary overlays are intentionally **not displayed on the interactive map**. The boundary datasets remain in the repository for processing, coverage checks and other internal/reference uses. The polygon-analysis workflow still uses the Kogi processing boundary internally to determine valid analysis coverage.
