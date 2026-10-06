@@ -61,7 +61,24 @@ details summary{cursor:pointer;font-weight:600;font-size:11px}
     overflow:visible;
   }
   .metric-grid{grid-template-columns:1fr 1fr}
-  .leaflet-control-layers{max-width:230px;max-height:42vh}
+  .leaflet-control-layers{
+    max-width:78vw;
+    max-height:48vh;
+    overflow:auto;
+  }
+  .leaflet-control-layers:not(.leaflet-control-layers-expanded){
+    width:44px;
+    height:44px;
+    overflow:hidden;
+  }
+  .leaflet-control-layers-toggle{
+    width:42px;
+    height:42px;
+    background-size:26px 26px;
+  }
+  .leaflet-control-layers-expanded{
+    padding:8px 10px;
+  }
 }
 .result-info-wrap{display:inline;position:relative}
 .result-info-label{vertical-align:middle}
