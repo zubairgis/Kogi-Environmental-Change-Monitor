@@ -1,9 +1,9 @@
 {
   "ok": true,
   "project": "Kogi Environmental Change Monitor",
-  "generated_at": "2026-10-05T21:08:46.194Z",
+  "generated_at": "2026-10-06T20:23:00+01:00",
   "source": "Static fallback snapshot of public registry",
-  "count": 18,
+  "count": 19,
   "sites": [
     {
       "record_id": "KOGI_001",
@@ -273,6 +273,24 @@
       "validation_status": "Preliminary Registry",
       "remote_sensing_status": "Not assessed",
       "source_url": "https://www.gem.wiki/Dangote_Cement_Obajana_Cement_Plant",
+      "portal_publish": "Yes"
+    },
+    {
+      "record_id": "KOGI_023",
+      "site_name": "Luffa",
+      "activity_type": "Factory",
+      "commodity": "",
+      "operator_name_reported": "",
+      "operator_evidence_status": "Not established",
+      "latitude": 7.4958345,
+      "longitude": 7.0322115,
+      "lga_name": "Bassa",
+      "community_locality": "",
+      "current_operational_status": "Active",
+      "permit_status": "Valid",
+      "validation_status": "Verified",
+      "remote_sensing_status": "Not assessed",
+      "source_url": "",
       "portal_publish": "Yes"
     }
   ]
