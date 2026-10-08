@@ -1,0 +1,21 @@
+{
+  "source": "Esri / Impact Observatory / Microsoft annual Sentinel-2 10 m land cover",
+  "classes": {
+    "2": "Trees",
+    "4": "Flooded Vegetation",
+    "5": "Crops",
+    "7": "Built Area",
+    "8": "Bare Ground",
+    "11": "Rangeland"
+  },
+  "monitored_baseline_classes": [
+    2,
+    4,
+    5,
+    11
+  ],
+  "impacted_end_classes": [
+    7,
+    8
+  ]
+}

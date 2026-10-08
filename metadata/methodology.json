@@ -1,0 +1,74 @@
+{
+  "version": "0.3",
+  "baseline": {
+    "years": [
+      2018,
+      2019,
+      2020
+    ],
+    "monitored_classes": [
+      "Trees",
+      "Flooded Vegetation",
+      "Crops",
+      "Rangeland"
+    ],
+    "strict_rule": "The same monitored vegetation class must be present in all three baseline years.",
+    "monitored_class_codes": [
+      2,
+      4,
+      5,
+      11
+    ]
+  },
+  "candidate_change": {
+    "purpose": "Sensitive screening layer retained for comparison and possible-change reporting.",
+    "destination_classes": [
+      "Built Area",
+      "Bare Ground"
+    ]
+  },
+  "permanent_change": {
+    "destination_classes": [
+      "Built Area",
+      "Bare Ground"
+    ],
+    "rule": "From the first permanent-change year, the pixel must remain Built Area or Bare Ground in every available subsequent annual map through 2025.",
+    "confirmed_first_change_years": [
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "destination_class_codes": [
+      7,
+      8
+    ],
+    "persistence_years": "2025 - CHANGE_YEAR + 1; switching between Built Area and Bare Ground is allowed."
+  },
+  "provisional": {
+    "year": 2025,
+    "rule": "2025 is provisional in this dataset, which ends in 2025; a later annual map is needed to test persistence."
+  },
+  "portal_area_reporting": {
+    "primary_metric": "Strict permanent change area inside the user-drawn polygon.",
+    "secondary_metrics": [
+      "Potential/candidate change area",
+      "Provisional 2025 change area"
+    ],
+    "breakdowns": [
+      "first change year",
+      "baseline class",
+      "transition type",
+      "end state",
+      "persistence years"
+    ],
+    "lga_role": "Reference overlay and location identification only; LGA geometry is not used to calculate site change area.",
+    "edge_pixels": "Use polygon-raster intersection rather than blindly counting all edge pixels as full 10 m pixels.",
+    "area_method": "EPSG:3857 is not equal-area. Pixel count × 0.01 ha is approximate nominal raster area only. Compute polygon and clipped changed-pixel areas geodesically or in an appropriate projected CRS; handle fractional boundary pixels.",
+    "primary_status": 1,
+    "provisional_status": 2,
+    "end_state_note": "Label FIRST_END_CLASS and FINAL_2025_CLASS distinctly; do not silently mix first and final end states."
+  },
+  "interpretation": "Permanent vegetation-to-Built/Bare conversion within the selected polygon. Attribution to mining, factory activity or an operator requires lease, site or field evidence. Persistence is observed through 2025, not a prediction of future land cover.",
+  "validation": "Living Atlas LULC is Sentinel-2-derived. Another Sentinel-2 analysis is not required as independent validation. Field, inspection, photographic, drone or documentary evidence is reviewed separately; only authorized reviewers may verify submissions."
+}

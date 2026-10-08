@@ -1,0 +1,44 @@
+{
+  "version": "1.1",
+  "generated_on": "2026-10-05",
+  "sources": {
+    "annual_land_cover": {
+      "name": "Esri / Impact Observatory / Microsoft Sentinel-2 10 m Annual Land Cover",
+      "years": "2018-2025 used in this project",
+      "role": "Primary annual land-cover classification used to derive candidate and strict permanent vegetation-to-Built/Bare transitions."
+    },
+    "processing_boundary": {
+      "name": "FAO GAUL 2015 level1",
+      "role": "Kogi State processing extent used by the Colab raster workflow.",
+      "file": "data/admin/kogi_state.geojson",
+      "source_asset": "FAO/GAUL/2015/level1",
+      "source_file": "Kogi_boundary_3857.geojson",
+      "source_crs": "EPSG:3857",
+      "output_crs": "EPSG:4326",
+      "transformation": "Reprojected the original processing boundary; no simplification.",
+      "citation_url": "https://developers.google.com/earth-engine/datasets/catalog/FAO_GAUL_2015_level1"
+    },
+    "lga_overlay": {
+      "file": "data/admin/kogi_lgas.geojson",
+      "dataset": "Nigeria - Subnational Administrative Boundaries",
+      "version": "v01",
+      "source": "Office for the Surveyor General of the Federation of Nigeria (OSGOF), Ehealth, United Nations Cartographic Section (UNCS)",
+      "publisher": "OCHA Nigeria / OCHA Field Information Services / HDX",
+      "dataset_url": "https://data.humdata.org/dataset/cod-ab-nga",
+      "download_url": "https://data.humdata.org/dataset/81ac1d38-f603-4a98-804d-325c658599a3/resource/7e30ec96-7f29-4ee8-9f4c-77633b353cbb/download/nga_admin_boundaries.geojson.zip",
+      "archive_member": "nga_admin2.geojson",
+      "license": "Creative Commons Attribution for Intergovernmental Organisations (CC BY-IGO)",
+      "license_url": "http://creativecommons.org/licenses/by/3.0/igo/legalcode",
+      "accessed_on": "2026-10-05",
+      "reviewed_on": "2025-10-30",
+      "valid_from": "2019-04-17",
+      "boundary_creation_date": "1996-10-01",
+      "selection": "adm1_name = 'Kogi'",
+      "feature_count": 21,
+      "crs": "EPSG:4326 (longitude, latitude)",
+      "processing": "Extracted 21 features and renamed attributes; geometries retained without simplification. Replaces the earlier third-party copy.",
+      "role": "Reference display and location identification; not a cadastral or lease boundary. State overlay and processing boundary are from different sources and may differ."
+    }
+  },
+  "interpretation": "Remote sensing establishes land-cover conversion within a polygon. It does not by itself establish causal attribution to a specific operator or activity."
+}

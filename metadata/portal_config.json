@@ -1,0 +1,110 @@
+{
+  "version": "1.5",
+  "state": "Kogi",
+  "country": "Nigeria",
+  "map": {
+    "boundary": "data/admin/kogi_state.geojson",
+    "lga_boundaries": "data/admin/kogi_lgas.geojson",
+    "tile_index": "data/tile_index.geojson",
+    "default_basemap": "Satellite + labels",
+    "alternative_basemap": "OpenStreetMap",
+    "drainage": {
+      "path": "data/hydrography/NGA023_Kogi_drainage.geojson",
+      "label": "Drainage / streams",
+      "default_visible": false,
+      "load_strategy": "lazy on first selection",
+      "feature_count": 1462,
+      "source_repository": "zubairgis/nigeria-population-demography-course",
+      "source_path": "data/drainage/by_state/NGA023_Kogi_drainage.geojson"
+    }
+  },
+  "site_registry": {
+    "provider": "Google Sheets via Apps Script",
+    "public_api": "https://script.google.com/macros/s/AKfycbxQwLQvjV591q8JUCUsgi8_lkJL2rfeWvZCqReJ8zeU5YTufUASp-m9QFNT5TFsrk8/exec",
+    "public_form": "https://docs.google.com/forms/d/e/1FAIpQLSc5u0zf5JcXUL-hwrUIPJuPV2g7TZSbsUqZA0p_Ja_3NL7yMg/viewform",
+    "publish_rule": "Only Sites_Master records with portal_publish = Yes and valid coordinates are exposed.",
+    "privacy_note": "Private submitter and reviewer fields are not exposed by the public API."
+  },
+  "change_layers": {
+    "primary": {
+      "id": "permanent",
+      "label": "Strict permanent change",
+      "tile_property": "permanent_path",
+      "schema": "metadata/raster_schema.json"
+    },
+    "screening": {
+      "id": "candidate",
+      "label": "Potential / candidate change",
+      "tile_property": "candidate_path",
+      "schema": "metadata/raster_schema.json"
+    }
+  },
+  "polygon_analysis": {
+    "enabled": true,
+    "engine": "browser",
+    "libraries": [
+      "Leaflet.Draw 1.0.4",
+      "GeoTIFF.js 2.1.3",
+      "Turf.js 7.2.0"
+    ],
+    "max_bbox_window_pixels": 4000000,
+    "clip_to_processing_boundary": true,
+    "edge_pixel_method": "fractional polygon-pixel intersection",
+    "interior_pixel_area_method": "geodesic pixel polygon area",
+    "coverage_note": "Polygons extending outside the Kogi processing boundary are clipped for change statistics and the coverage percentage is reported."
+  },
+  "report": {
+    "primary_status_value": 1,
+    "provisional_status_value": 2,
+    "show_polygon_area": true,
+    "show_changed_area": true,
+    "show_percent_changed": true,
+    "breakdowns": [
+      "change_year",
+      "baseline_class",
+      "transition_code",
+      "first_end_state",
+      "final_2025_state",
+      "persistence_years"
+    ],
+    "keep_2025_provisional_separate": true,
+    "csv_download": true
+  },
+  "raster_display": {
+    "enabled": true,
+    "minimum_zoom": 9,
+    "max_visible_tiles": 18,
+    "renderer": "GeoTIFF.js downsampled browser canvas + Leaflet image overlay",
+    "layers": [
+      {
+        "id": "permanent",
+        "label": "Strict permanent change raster",
+        "color_by": "CHANGE_YEAR",
+        "provisional_2025_separate": true
+      },
+      {
+        "id": "candidate",
+        "label": "Potential / candidate change raster",
+        "color_by": "STATUS",
+        "provisional_2025_separate": true
+      }
+    ],
+    "note": "Only visible COG tiles are fetched and rendered; full statewide rasters are not decoded at once."
+  },
+  "environmental_restoration_charge": {
+    "enabled": true,
+    "currency": "NGN",
+    "basis": "Confirmed strict permanent change only (status = 1); provisional 2025 excluded.",
+    "legal_status": "Indicative restoration-cost estimate for planning and compliance screening; not a statutory fine or legal determination of liability.",
+    "rates_naira_per_ha": {
+      "Trees → Bare Ground": 6000000,
+      "Trees → Built Area": 7500000,
+      "Flooded Vegetation → Bare Ground": 7000000,
+      "Flooded Vegetation → Built Area": 8750000,
+      "Crops → Bare Ground": 3000000,
+      "Crops → Built Area": 3750000,
+      "Rangeland → Bare Ground": 2000000,
+      "Rangeland → Built Area": 2500000
+    }
+  }
+}

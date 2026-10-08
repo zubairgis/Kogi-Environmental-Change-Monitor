@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "verified_on": "2026-10-05",
+  "input_commit": "7e99e9f65e5c45a53d626cbf398316c44a18c2f3",
+  "interrupted_commit_verified_as_ancestor": "6fca73c0a68d0212a86f0ecae0dfe4db9b43378b",
+  "candidate_tile_count": 92,
+  "strict_permanent_tile_count": 91,
+  "processing_tiles_total": 104,
+  "no_change_strict_tiles": 13,
+  "failed_strict_tiles": 0,
+  "strict_confirmed_pixels": 1052826,
+  "strict_provisional_pixels": 477278,
+  "pixel_count_source": "Original strict_processing_manifest.csv; private filesystem paths excluded.",
+  "confirmed_years": [
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "provisional_year": 2025,
+  "raster_crs": "EPSG:3857",
+  "nominal_pixel_size_m": 10,
+  "strict_methodology": {
+    "baseline_years": [
+      2018,
+      2019,
+      2020
+    ],
+    "baseline_rule": "Class_2018 = Class_2019 = Class_2020 in {2,4,5,11}",
+    "conversion_rule": "Class_t in {7,8} for every year t from first conversion Y through 2025",
+    "status_codes": {
+      "1": "Confirmed permanent conversion beginning 2021–2024",
+      "2": "Provisional conversion beginning 2025"
+    },
+    "persistence_years": "2025 - CHANGE_YEAR + 1",
+    "interpretation": "Permanent vegetation-to-Built/Bare conversion within the selected polygon."
+  },
+  "raster_validation": {
+    "files_checked": 183,
+    "unique_git_blob_hashes": 183,
+    "all_cog": true,
+    "all_epsg3857": true,
+    "all_nominal_10m": true,
+    "bounds_corrected_tile_ids": []
+  },
+  "boundaries": {
+    "state": "data/admin/kogi_state.geojson",
+    "lgas": "data/admin/kogi_lgas.geojson",
+    "lga_count": 21
+  },
+  "area_note": "EPSG:3857 is not equal-area. Pixel count × 0.01 ha is approximate nominal raster area only. Compute polygon and clipped changed-pixel areas geodesically or in an appropriate projected CRS; handle fractional boundary pixels.",
+  "methodology_file": "metadata/methodology.json"
+}

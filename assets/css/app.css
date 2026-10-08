@@ -1,0 +1,137 @@
+html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;color:#172033;background:#f6f8fb}
+*{box-sizing:border-box}
+header{background:#fff;border-bottom:1px solid #dfe5ec;padding:14px 18px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand h1{font-size:20px;margin:0 0 3px}.brand p{margin:0;color:#596579;font-size:12px}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button,.btn{border:1px solid #cbd5e1;background:#fff;border-radius:7px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none;color:#172033}
+button:hover,.btn:hover{background:#f8fafc}button:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:#1769e0;color:#fff;border-color:#1769e0}.btn-primary:hover{background:#155dc5}
+.draw-primary{background:#dc2626;color:#fff;border-color:#dc2626;font-weight:700}.draw-primary:hover{background:#b91c1c}
+main{height:calc(100% - 75px);display:grid;grid-template-columns:390px 1fr;min-height:560px}
+.panel{background:#fff;border-right:1px solid #dfe5ec;padding:15px;overflow:auto}
+.panel h2{font-size:15px;margin:0 0 10px}.panel h3{font-size:13px;margin:18px 0 8px}
+.field{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+input{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px}
+.status{margin:10px 0;padding:9px;border-radius:7px;background:#f1f5f9;font-size:12px;line-height:1.45}
+.status.ok{background:#ecfdf3}.status.warn{background:#fff7ed}.small{font-size:11px;color:#64748b;line-height:1.45}
+.legend-row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:12px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block;border:1px solid #fff;box-shadow:0 0 0 1px #6b7280}
+.raster-swatch{width:18px;height:11px;border:1px solid rgba(0,0,0,.35);display:inline-block}
+.raster-legend-title{font-size:11px;font-weight:700;margin-top:6px}
+#map{height:100%;width:100%;background:#111827}
+.popup-title{font-weight:700;margin-bottom:6px}.popup-grid{font-size:12px;line-height:1.5}.popup-grid b{font-weight:600}
+.analysis-buttons{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}
+.analysis-buttons button{font-size:11px;padding:7px 9px}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:9px 0}
+.metric-card{border:1px solid #dbe3ec;border-radius:8px;padding:9px;background:#f8fafc}
+.metric-card.primary-metric{border-color:#15803d;background:#f0fdf4}
+.metric-label{font-size:10px;color:#64748b;margin-bottom:4px}
+.metric-value{font-size:15px;font-weight:700}
+.analysis-note{font-size:11px;line-height:1.45;background:#f8fafc;border-left:3px solid #64748b;padding:8px;margin:8px 0}
+.warn-note{background:#fff7ed;border-left-color:#ea580c}
+details{border-top:1px solid #e5e7eb;padding:7px 0;font-size:11px}
+details summary{cursor:pointer;font-weight:600;font-size:11px}
+.result-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:10px}
+.result-table th,.result-table td{padding:5px 4px;border-bottom:1px solid #eef2f7;text-align:left}
+.result-table th:last-child,.result-table td:last-child{text-align:right}
+.no-data{padding:5px 0}
+.leaflet-control-layers{font-size:12px;max-height:55vh;overflow:auto}
+.leaflet-control-layers-expanded{padding:8px 10px}
+.leaflet-draw-toolbar a{background-color:#fff}
+.lga-tooltip{background:rgba(17,24,39,.88);color:#fff;border:0;box-shadow:none;font-size:10px}
+.change-raster-overlay{image-rendering:auto}
+@media(max-width:800px){
+  main{
+    display:flex;
+    flex-direction:column;
+    height:auto;
+    min-height:0;
+  }
+  .map-wrap{
+    order:1;
+    height:62vh;
+    min-height:390px;
+    width:100%;
+  }
+  .panel{
+    order:2;
+    border-right:0;
+    border-top:1px solid #dfe5ec;
+    border-bottom:0;
+    overflow:visible;
+  }
+  .metric-grid{grid-template-columns:1fr 1fr}
+  .leaflet-control-layers{
+    max-width:78vw;
+    max-height:48vh;
+    overflow:auto;
+  }
+  .leaflet-control-layers:not(.leaflet-control-layers-expanded){
+    width:44px;
+    height:44px;
+    overflow:hidden;
+  }
+  .leaflet-control-layers-toggle{
+    width:42px;
+    height:42px;
+    background-size:26px 26px;
+  }
+  .leaflet-control-layers-expanded{
+    padding:8px 10px;
+  }
+}
+.result-info-wrap{display:inline;position:relative}
+.result-info-label{vertical-align:middle}
+.result-info-btn{
+  width:16px;height:16px;min-width:16px;padding:0;margin-left:4px;
+  border:1px solid #94a3b8;border-radius:50%;background:#fff;color:#475569;
+  font-size:10px;font-weight:700;line-height:14px;text-align:center;vertical-align:middle;
+  cursor:pointer;
+}
+.result-info-btn:hover,.result-info-btn:focus{background:#e2e8f0;border-color:#64748b;outline:none}
+.result-info-btn[aria-expanded="true"]{background:#334155;color:#fff;border-color:#334155}
+.result-info-text{
+  display:block;margin-top:5px;padding:6px 7px;border-radius:6px;
+  background:#eef6ff;color:#334155;font-size:10px;font-weight:400;line-height:1.4;
+  border-left:3px solid #3b82f6;
+}
+.metric-label .result-info-text{color:#334155}
+details summary .result-info-text{margin:6px 0 2px 0}
+
+.environmental-charge-box{
+  margin-top:14px;padding:12px;border:1px solid #86b897;border-radius:9px;
+  background:#f0fdf4;
+}
+.environmental-charge-title{font-size:12px;font-weight:700;color:#166534;margin-bottom:4px}
+.environmental-charge-total{font-size:22px;font-weight:800;color:#14532d;margin:4px 0 6px}
+.environmental-charge-disclaimer{
+  margin-top:8px;padding-top:7px;border-top:1px solid #bbd8c3;
+  font-size:10px;line-height:1.4;color:#475569
+}
+.charge-table{margin-top:9px}
+.charge-table th,.charge-table td{font-size:9px}
+.charge-table th:nth-child(n+2),.charge-table td:nth-child(n+2){text-align:right}
+
+.contact-footer{
+  margin-top:24px;
+  padding-top:10px;
+  border-top:1px solid #e5e7eb;
+  font-size:10px;
+  line-height:1.45;
+  color:#64748b;
+  word-break:break-word;
+}
+.contact-footer strong{color:#334155;font-size:10px}
+.contact-footer a{color:#475569;text-decoration:none}
+.contact-footer a:hover{text-decoration:underline}
+
+.leaflet-control-layers:not(.leaflet-control-layers-expanded){
+  width:44px;
+  height:44px;
+  overflow:hidden;
+}
+.leaflet-control-layers-toggle{
+  width:42px;
+  height:42px;
+  background-size:26px 26px;
+}
